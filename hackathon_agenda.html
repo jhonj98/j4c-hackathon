@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hackathon · Joule para Consultores</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: '72 Brand', 'Helvetica Neue', Arial, sans-serif;
+      background: #FFFFFF;
+      color: #000000;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Design tokens ── */
+    :root {
+      --joule-grad: linear-gradient(135deg, #A100C2 0%, #5D36FF 100%);
+      --joule-grad-soft: linear-gradient(135deg, rgba(161,0,194,0.12) 0%, rgba(93,54,255,0.12) 100%);
+      --navy: #00144A;
+      --deep-navy: #002A86;
+      --sap-blue: #1B90FF;
+      --hyperlink-blue: #0070F2;
+      --light-sky: #D1EFFF;
+      --light-bg: #E1F4FF;
+      --border: #EAECEE;
+      --text-primary: #000000;
+      --text-secondary: #666666;
+      --white: #FFFFFF;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--navy);
+      padding: 28px 48px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .sap-logo img {
+      height: 40px;
+      width: auto;
+    }
+    .header-badge {
+      background: var(--joule-grad);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .header-body {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    .header-text {
+      max-width: 580px;
+      padding-bottom: 36px;
+    }
+    .header-eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--light-sky);
+      margin-bottom: 10px;
+      opacity: 0.85;
+    }
+    .header-title {
+      font-size: 38px;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .header-title span {
+      background: var(--joule-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .header-sub {
+      font-size: 16px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.5;
+      max-width: 460px;
+      margin-bottom: 24px;
+    }
+    /* ── Expert explainer block (inside header) ── */
+    .expert-explainer {
+      margin-top: 4px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 20px 24px;
+      max-width: 600px;
+      backdrop-filter: blur(4px);
+    }
+    .expert-explainer-title {
+      font-family: '72 Brand Medium', Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #A78BFA;
+      margin-bottom: 8px;
+    }
+    .expert-explainer-body {
+      font-size: 14px;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+      margin: 0 0 16px 0;
+    }
+    .expert-pillars {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .expert-pillar {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 10px 8px;
+      text-align: center;
+    }
+    .pillar-number {
+      font-family: '72 Brand Medium', Arial, sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      background: var(--joule-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+    .pillar-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.35;
+    }
+    .expert-explainer-footnote {
+      font-size: 11px;
+      color: rgba(255,255,255,0.35);
+      margin: 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 10px;
+    }
+    /* Decorative orb */
+    .header-orb {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: var(--joule-grad);
+      opacity: 0.13;
+      flex-shrink: 0;
+      align-self: flex-start;
+      margin-bottom: -60px;
+      margin-right: -20px;
+    }
+    /* Header wave bottom */
+    .header-wave {
+      height: 6px;
+      background: var(--joule-grad);
+      width: 100%;
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: var(--light-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 48px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      padding: 0 24px;
+      border-right: 1px solid rgba(0,112,242,0.2);
+    }
+    .stat:first-child { padding-left: 0; }
+    .stat:last-child { border-right: none; }
+    .stat-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--joule-grad);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .stat-icon img {
+      width: 20px;
+      height: 20px;
+      filter: brightness(0) invert(1);
+    }
+    .stat-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* ── PREREQUISITE BANNER ── */
+    .prereq-banner {
+      margin: 32px 48px 0;
+      border-radius: 12px;
+      background: var(--joule-grad-soft);
+      border: 1px solid rgba(93,54,255,0.25);
+      padding: 18px 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .prereq-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--joule-grad);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .prereq-icon img {
+      width: 22px;
+      height: 22px;
+      filter: brightness(0) invert(1);
+    }
+    .prereq-content {}
+    .prereq-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #5D36FF;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+    .prereq-text {
+      font-size: 14px;
+      color: var(--text-primary);
+      line-height: 1.55;
+    }
+    .prereq-text strong { color: #A100C2; }
+
+    /* ── AGENDA SECTION ── */
+    .agenda-section {
+      padding: 40px 48px 16px;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+    .section-header-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 80px 48px 1fr;
+      gap: 0 16px;
+      align-items: stretch;
+      position: relative;
+    }
+
+    /* Time column */
+    .time-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding-top: 18px;
+      gap: 4px;
+    }
+    .time-start {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+      font-variant-numeric: tabular-nums;
+    }
+    .time-dur {
+      font-size: 11px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    /* Connector column */
+    .connector-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .step-dot {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--joule-grad);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 12px;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 2px 12px rgba(93,54,255,0.3);
+    }
+    .step-dot span {
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .connector-line {
+      flex: 1;
+      width: 2px;
+      background: linear-gradient(to bottom, rgba(93,54,255,0.35) 0%, rgba(161,0,194,0.1) 100%);
+      margin-top: 4px;
+      margin-bottom: 0;
+      min-height: 24px;
+    }
+    .timeline-item:last-child .connector-line {
+      display: none;
+    }
+
+    /* Card column */
+    .card-col {
+      padding: 12px 0 28px;
+    }
+    .agenda-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      transition: box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .agenda-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--joule-grad);
+      border-radius: 12px 0 0 12px;
+    }
+    .card-icon-wrap {
+      width: 52px;
+      height: 52px;
+      background: var(--joule-grad);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .card-icon-wrap img {
+      width: 28px;
+      height: 28px;
+      filter: brightness(0) invert(1);
+    }
+    .card-body {
+      flex: 1;
+    }
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+    .card-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      line-height: 1.55;
+    }
+    .card-bullets {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .card-bullets li {
+      font-size: 12px;
+      color: var(--navy);
+      background: var(--light-bg);
+      border: 1px solid rgba(0,112,242,0.18);
+      border-radius: 20px;
+      padding: 3px 12px;
+      line-height: 1.4;
+    }
+    /* Special highlight card for main activity */
+    .agenda-card.highlight {
+      border-color: rgba(93,54,255,0.3);
+      background: linear-gradient(135deg, rgba(161,0,194,0.03) 0%, rgba(93,54,255,0.05) 100%);
+    }
+    .agenda-card.highlight .card-title {
+      font-size: 20px;
+    }
+    .card-badge {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--joule-grad);
+      color: white;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    /* Voting note */
+    .voting-note {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .voting-platform {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1.5px solid;
+    }
+    .voting-platform.menti {
+      color: #6E41C0;
+      border-color: #6E41C0;
+      background: rgba(110,65,192,0.07);
+    }
+    .voting-platform.kahoot {
+      color: #46178F;
+      border-color: #46178F;
+      background: rgba(70,23,143,0.07);
+    }
+    .voting-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* Finalist note */
+    .finalist-note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      background: #f0f4ff;
+      border-left: 3px solid var(--sap-blue);
+      padding: 7px 10px;
+      border-radius: 0 6px 6px 0;
+    }
+
+    /* Final card highlight */
+    .card-final {
+      border-color: #A100C2 !important;
+      border-width: 2px !important;
+    }
+    .final-icon {
+      background: linear-gradient(135deg, #A100C2, #5D36FF) !important;
+    }
+
+    /* Tool badges (card-based version) */
+    .tool-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1.5px solid #6E41C0;
+      color: #6E41C0;
+      background: rgba(110,65,192,0.07);
+      margin-right: 6px;
+      margin-top: 8px;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 8px;
+      padding: 16px 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-classification {
+      font-size: 11px;
+      color: var(--text-secondary);
+      letter-spacing: 0.06em;
+    }
+    .footer-brand {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+    .footer-brand span {
+      font-weight: 700;
+      color: var(--hyperlink-blue);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 700px) {
+      .header, .stats-bar, .agenda-section, .prereq-banner, .footer {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .prereq-banner { margin-left: 20px; margin-right: 20px; }
+      .timeline-item { grid-template-columns: 60px 40px 1fr; }
+      .header-title { font-size: 26px; }
+      .header-orb { width: 120px; height: 120px; }
+      .stats-bar { flex-direction: column; gap: 16px; }
+      .stat { border-right: none; border-bottom: 1px solid rgba(0,112,242,0.2); padding: 0 0 16px; }
+      .stat:last-child { border-bottom: none; padding-bottom: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ HEADER ═══════════════════════════ -->
+<header class="header">
+  <div class="header-top">
+    <div class="sap-logo">
+      <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI4LjMuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCA0MTIuNCAyMDQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQxMi40IDIwNDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsLXJ1bGU6ZXZlbm9kZDtjbGlwLXJ1bGU6ZXZlbm9kZDtmaWxsOnVybCgjU1ZHSURfMV8pO30KCS5zdDF7ZmlsbC1ydWxlOmV2ZW5vZGQ7Y2xpcC1ydWxlOmV2ZW5vZGQ7ZmlsbDojRkZGRkZGO30KPC9zdHlsZT4KPGc+CgkKCQk8bGluZWFyR3JhZGllbnQgaWQ9IlNWR0lEXzFfIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjIwNi4xOSIgeTE9IjIwNiIgeDI9IjIwNi4xOSIgeTI9IjIiIGdyYWRpZW50VHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgMCAyMDYpIj4KCQk8c3RvcCAgb2Zmc2V0PSIwIiBzdHlsZT0ic3RvcC1jb2xvcjojMDBCOEYxIi8+CgkJPHN0b3AgIG9mZnNldD0iMi4wMDAwMDBlLTAyIiBzdHlsZT0ic3RvcC1jb2xvcjojMDFCNkYwIi8+CgkJPHN0b3AgIG9mZnNldD0iMC4zMSIgc3R5bGU9InN0b3AtY29sb3I6IzBEOTBEOSIvPgoJCTxzdG9wICBvZmZzZXQ9IjAuNTgiIHN0eWxlPSJzdG9wLWNvbG9yOiMxNzc1QzgiLz4KCQk8c3RvcCAgb2Zmc2V0PSIwLjgyIiBzdHlsZT0ic3RvcC1jb2xvcjojMUM2NUJGIi8+CgkJPHN0b3AgIG9mZnNldD0iMSIgc3R5bGU9InN0b3AtY29sb3I6IzFFNUZCQiIvPgoJPC9saW5lYXJHcmFkaWVudD4KCTxwb2x5bGluZSBjbGFzcz0ic3QwIiBwb2ludHM9IjAsMjA0IDIwOC40LDIwNCA0MTIuNCwwIDAsMCAwLDIwNCAJIi8+Cgk8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMjQ0LjcsMzguNGgtNDAuNnY5Ni41bC0zNS41LTk2LjZoLTM1LjJsLTMwLjMsODAuN0MxMDAsOTguNyw3OSw5MS43LDYyLjQsODYuNEM1MS41LDgyLjksMzkuOCw3Ny43LDQwLDcyCgkJYzAuMS00LjcsNi4yLTksMTguNC04LjRjOC4yLDAuNCwxNS40LDEuMSwyOS43LDhsMTQuMS0yNC41Yy0xMy4xLTYuNi0zMS4yLTEwLjktNDYtMTAuOWgtMC4xYy0xNy4zLDAtMzEuNyw1LjYtNDAuNiwxNC44CgkJYy02LjIsNi4zLTkuNywxNC44LTkuNywyMy43QzUuNSw4Ny4yLDEwLjEsOTYsMTkuNywxMDNjOC4xLDUuOSwxOC41LDkuOCwyNy42LDEyLjZjMTEuMywzLjUsMjAuNSw2LjUsMjAuNCwxMwoJCWMtMC4xLDIuNC0xLDQuNy0yLjcsNi40Yy0yLjgsMi45LTcuMSw0LTEzLjEsNC4xYy0xMS41LDAuMi0yMC0xLjYtMzMuNi05LjZMNS44LDE1NC40YzE0LDgsMjkuOSwxMi4yLDQ2LDEyLjJoMi4xCgkJYzE0LjItMC4yLDI1LjctNC4zLDM0LjktMTEuN2MwLjUtMC40LDEtMC44LDEuNS0xLjNsLTQuMSwxMC45SDEyM2w2LjItMTguOGM3LDIuMywxNC4zLDMuNSwyMS43LDMuNGM3LjIsMCwxNC4zLTEuMSwyMS4yLTMuMgoJCWw2LDE4LjZoNjAuMXYtMzloMTMuMWMzMS43LDAsNTAuNS0xNi4yLDUwLjUtNDMuMkMzMDEuNyw1Mi4yLDI4My41LDM4LjQsMjQ0LjcsMzguNHogTTE1MC45LDEyMWMtNC40LDAtOC44LTAuNy0xMy0yLjNsMTIuOS00MC42CgkJaDAuMmwxMi42LDQwLjdDMTU5LjYsMTIwLjMsMTU1LjIsMTIxLDE1MC45LDEyMXogTTI0Ny4xLDk3LjdoLTguOVY2NC45aDguOWMxMS45LDAsMjEuNCw0LDIxLjQsMTYuMQoJCUMyNjguNSw5My43LDI1OSw5Ny42LDI0Ny4xLDk3LjciLz4KPC9nPgo8L3N2Zz4K" alt="SAP" class="">
+    </div>
+    <div class="header-badge">SAP Joule · Hackathon</div>
+  </div>
+  <div class="header-body">
+    <div class="header-text">
+      <div class="header-eyebrow">SAP Joule para Consultores</div>
+      <h1 class="header-title">Hackathon:<br><span>Crea tu Experto</span></h1>
+      <p class="header-sub">
+        En 60 minutos, configura tu propio Expert Workspace en SAP Joule
+        para Consultores, preséntatelo a los demás y compite por el mejor experto.
+      </p>
+
+      <div class="expert-explainer">
+        <div class="expert-explainer-title">¿Qué es un Joule Expert?</div>
+        <p class="expert-explainer-body">
+          Un <strong>Joule Expert</strong> es un asistente de IA conversacional personalizado
+          dentro de SAP Joule para Consultores. Cada experto se configura con un nombre,
+          un rol y un dominio de especialidad específico — desde ABAP y arquitectura cloud
+          hasta procesos de negocio SAP — y responde con orientación de nivel experto
+          fundamentada en la base de conocimiento más exclusiva y actualizada de SAP:
+        </p>
+        <div class="expert-pillars">
+          <div class="expert-pillar">
+            <div class="pillar-number">200,000+</div>
+            <div class="pillar-label">páginas de documentación y contenido de aprendizaje SAP</div>
+          </div>
+          <div class="expert-pillar">
+            <div class="pillar-number">50+</div>
+            <div class="pillar-label">certificaciones SAP incorporadas al modelo</div>
+          </div>
+          <div class="expert-pillar">
+            <div class="pillar-number">2 TB+</div>
+            <div class="pillar-label">de contenido curado de SAP Community</div>
+          </div>
+          <div class="expert-pillar">
+            <div class="pillar-number">250M</div>
+            <div class="pillar-label">líneas de código ABAP en el modelo de lenguaje especializado</div>
+          </div>
+        </div>
+        <p class="expert-explainer-footnote">
+          Fuente: SAP Knowledge Graph &mdash; SAP Joule para Consultores (GA: 30 jun 2025)
+        </p>
+      </div>
+    </div>
+    <div class="header-orb"></div>
+  </div>
+</header>
+<div class="header-wave"></div>
+
+<!-- ═══════════════════════════ STATS BAR ═══════════════════════════ -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-icon"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMiIgZGF0YS1uYW1lPSJMYXllciAyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5Ni4yMSA5Ni4yMSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgZmlsbDogcmdiYSgwLCAxMTIsIDI0MiwgMCk7CiAgICAgICAgb3BhY2l0eTogMDsKICAgICAgfQoKICAgICAgLmNscy0yIHsKICAgICAgICBmaWxsOiAjMDA3MGYyOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8ZyBpZD0iSWNvbnNfMWluY2giIGRhdGEtbmFtZT0iSWNvbnMgMWluY2giPgogICAgPGcgaWQ9ImluLXByb2dyZXNzIj4KICAgICAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMCwwaDk2LjIxdjk2LjIxSDBWMFoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJNNjEuMzMsNjYuMTRjLTEuMDgsMC0yLjEtLjM2LTMuMDEtMS4wOGwtMTMuODMtMTEuMThjLTEuMTQtLjktMS44LTIuMjgtMS44LTMuNzN2LTIxLjI5YzAtMi42NSwyLjE2LTQuODEsNC44MS00LjgxczQuODEsMi4xNiw0LjgxLDQuODF2MTlsMTIuMDksOS43NGMyLjA0LDEuNjgsMi40MSw0LjY5LjcyLDYuNzMtLjk2LDEuMi0yLjM1LDEuOC0zLjczLDEuOGgtLjA2Wk05MC4yLDczLjM2VjIyLjg1YzAtOS4yNi03LjU4LTE2Ljg0LTE2Ljg0LTE2Ljg0SDIyLjg1Yy05LjI2LDAtMTYuODQsNy41OC0xNi44NCwxNi44NHY1MC41MWMwLDkuMjYsNy41OCwxNi44NCwxNi44NCwxNi44NGg1MC41MWM5LjI2LDAsMTYuODQtNy41OCwxNi44NC0xNi44NFpNNzMuMzYsMTUuNjNjMy45NywwLDcuMjIsMy4yNSw3LjIyLDcuMjJ2NTAuNTFjMCwzLjk3LTMuMjUsNy4yMi03LjIyLDcuMjJIMjIuODVjLTMuOTcsMC03LjIyLTMuMjUtNy4yMi03LjIyVjIyLjg1YzAtMy45NywzLjI1LTcuMjIsNy4yMi03LjIyaDUwLjUxWiIvPgogICAgPC9nPgogIDwvZz4KPC9zdmc+" alt="Tiempo" class=""></div>
+    <div>
+      <div class="stat-value">60</div>
+      <div class="stat-label">minutos en total</div>
+    </div>
+  </div>
+  <div class="stat">
+    <div class="stat-icon"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgOTYuMjEgOTYuMjEiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEsIC5jbHMtMiB7CiAgICAgICAgZmlsbDogIzAwNzBmMjsKICAgICAgfQoKICAgICAgLmNscy0yIHsKICAgICAgICBvcGFjaXR5OiAwOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8ZyBpZD0iSWNvbnNfMTZweCI+CiAgICA8ZyBpZD0idGFzayI+CiAgICAgIDxyZWN0IGNsYXNzPSJjbHMtMiIgd2lkdGg9Ijk2LjIxIiBoZWlnaHQ9Ijk2LjIxIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTczLjM2LDk2LjIxSDIyLjg1Yy01Ljk3LDAtMTAuODItNC44Ni0xMC44Mi0xMC44MlYyMi44NWMwLTUuOTcsNC44Ni0xMC44MiwxMC44Mi0xMC44Mmg3LjIydi0xLjJjMC01Ljk3LDQuODYtMTAuODIsMTAuODItMTAuODJoMTQuNDNjNS45NywwLDEwLjgyLDQuODYsMTAuODIsMTAuODJ2MS4yaDcuMjJjNS45NywwLDEwLjgyLDQuODYsMTAuODIsMTAuODJ2NjIuNTRjMCw1Ljk3LTQuODYsMTAuODItMTAuODIsMTAuODJaTTIyLjg1LDIxLjY1Yy0uNjYsMC0xLjIuNTQtMS4yLDEuMnY2Mi41NGMwLC42Ni41NCwxLjIsMS4yLDEuMmg1MC41MWMuNjYsMCwxLjItLjU0LDEuMi0xLjJWMjIuODVjMC0uNjYtLjU0LTEuMi0xLjItMS4yaC03LjQ4Yy0xLjEsNC44MS01LjQxLDguNDItMTAuNTUsOC40MmgtMTQuNDNjLTUuMTQsMC05LjQ2LTMuNi0xMC41NS04LjQyaC03LjQ4Wk00MC44OSw5LjYyYy0uNjYsMC0xLjIuNTQtMS4yLDEuMnY4LjQyYzAsLjY2LjU0LDEuMiwxLjIsMS4yaDE0LjQzYy42NiwwLDEuMi0uNTQsMS4yLTEuMnYtOC40MmMwLS42Ni0uNTQtMS4yLTEuMi0xLjJoLTE0LjQzWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik00My42OSw3Mi4xNmMtMS4zNSwwLTIuNjQtLjU3LTMuNTUtMS41NmwtOC44Mi05LjY1Yy0xLjc5LTEuOTYtMS42Ni01LC4zMS02LjgsMS45Ni0xLjc5LDUtMS42Niw2LjguMzFsNS4xNiw1LjY1LDE0LjEtMTYuMzRjMS43NC0yLjAxLDQuNzctMi4yNCw2Ljc4LS41LDIuMDEsMS43NCwyLjI0LDQuNzcuNSw2Ljc4bC0xNy42NCwyMC40NGMtLjksMS4wNC0yLjIsMS42NS0zLjU3LDEuNjctLjAyLDAtLjA1LDAtLjA3LDBaIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4=" alt="Actividades" class=""></div>
+    <div>
+      <div class="stat-value">5</div>
+      <div class="stat-label">bloques de actividad</div>
+    </div>
+  </div>
+  <div class="stat">
+    <div class="stat-icon"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgOTYuMjEgOTYuMjIiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEsIC5jbHMtMiB7CiAgICAgICAgZmlsbDogIzAwNzBmMjsKICAgICAgfQoKICAgICAgLmNscy0yIHsKICAgICAgICBvcGFjaXR5OiAwOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8ZyBpZD0iSWNvbnNfMTZweCI+CiAgICA8ZyBpZD0iY29sbGFib3JhdGUiPgogICAgICA8cmVjdCBjbGFzcz0iY2xzLTIiIHg9IjAiIHk9IjAiIHdpZHRoPSI5Ni4yMSIgaGVpZ2h0PSI5Ni4yMSIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik00OC4wOSw5Ni4yMmMtNi4yNywwLTEyLjUzLTIuMDQtMTcuNzYtNi4xMmwtOC43LTYuNzl2Mi4wOGMwLDIuNjYtMS45Niw1LjA0LTQuODIsNC44MS0yLjY2LDAtNC44MS0yLjE2LTQuODEtNC44MXYtMTQuNDJjLjAxLTIuNjUsMi4xNi00LjgxLDQuODItNC44MWgxNC40MmMyLjktLjAyLDQuODEsMi4xNCw0LjgxLDQuOCwwLDIuNjYtMi4xNSw0LjgxLTQuODEsNC44MWgtMy42NXM4LjY1LDYuNzUsOC42NSw2Ljc1YzYuOTcsNS40NCwxNi43MSw1LjQ0LDIzLjY4LDBsOC42NS02Ljc1aC0zLjY1Yy0yLjY2LDAtNC44MS0yLjE2LTQuODEtNC44MiwwLTIuNjYsMi4wNS00Ljg4LDQuODEtNC44MWgxNC40MmMyLjY1LjAxLDQuODEsMi4xNiw0LjgxLDQuODJ2MTQuNDJjLjAxLDIuNjYtMi4xNCw0LjgxLTQuOCw0LjgxaDBjLTIuNjYsMC00LjgxLTIuMTUtNC44MS00Ljgxdi0yLjA4cy04LjcsNi43OS04LjcsNi43OWMtNS4yMyw0LjA4LTExLjQ5LDYuMTItMTcuNzYsNi4xMlpNOTEuNCw2MC4xNWMtMi42NiwwLTQuODEtMi4xNS00LjgxLTQuODF2LTIuNDFjMC0zLjk4LTMuMjQtNy4yMi03LjIyLTcuMjJoLS4zMmMxLjM2LDIuOTMsMi4xMyw2LjE5LDIuMTMsOS42MiwwLDIuNjYtMi4xNSw0LjgxLTQuODEsNC44MXMtNC44MS0yLjE1LTQuODEtNC44MWMwLTQuMjctMi4wMy04LjA3LTUuMTgtMTAuNDktLjA4LS4wNi0uMTctLjEyLS4yNS0uMTktMi4xOS0xLjYtNC44OS0yLjU1LTcuOC0yLjU1aC0yMC40NGMtMi44OCwwLTUuNTYuOTMtNy43MywyLjUtLjEyLjEtLjI1LjItLjM4LjI4LTMuMTEsMi40Mi01LjEyLDYuMi01LjEyLDEwLjQ0LDAsMi42Ni0yLjE1LDQuODEtNC44MSw0Ljgxcy00LjgxLTIuMTUtNC44MS00LjgxYzAtMy40NC43Ni02LjcsMi4xMy05LjYyaC0uMzJjLTMuOTgsMC03LjIyLDMuMjQtNy4yMiw3LjIydjIuNDFjMCwyLjY2LTIuMTUsNC44MS00LjgxLDQuODFzLTQuODEtMi4xNS00LjgxLTQuODF2LTIuNDFjMC03LjQsNC44LTEzLjcxLDExLjQ2LTE1Ljk2LTMuMzYtMy4yOC01LjQ1LTcuODUtNS40NS0xMi45MSwwLTUuMzUsMi4zNC0xMC4zOSw2LjQxLTEzLjgyLDQuMDgtMy40NCw5LjQ5LTQuODksMTQuODUtMy45NywxLjU5LjMsMy4xLjgsNC41LDEuNDdDMzYuNTMsMS45NCw0NC4xNC0xLjAyLDUxLjg4LjMzYzQuOTQuODQsOS40MSwzLjU1LDEyLjU0LDcuNDEsMy4zNC0xLjYsNy4xMy0yLjEzLDEwLjk2LTEuNDYsNy4zMywxLjMzLDEzLjI3LDcuMzIsMTQuNSwxNC41Ny45Miw1LjM0LS41MywxMC43NS0zLjk4LDE0Ljg1LS4zNy40NS0uNzcuODctMS4xOCwxLjI3LDYuNjcsMi4yNCwxMS40OCw4LjU1LDExLjQ4LDE1Ljk2djIuNDFjMCwyLjY2LTIuMTUsNC44MS00LjgxLDQuODFaTTY2LjgzLDMwLjU5YzMuMjQsMi42OSw4LjgzLDIuMzUsMTEuNzItMS4wOSwxLjY0LTEuOTUsMi4zLTQuNDQsMS44Ni03LjAyLDAsMCwwLS4wMSwwLS4wMi0uNTUtMy4yOC0zLjM3LTYuMS02LjctNi43MS0xLjc3LS4zMS0zLjUzLS4wNy01LjA4LjY1LjA2LjMxLjEyLjYzLjE3Ljk2LjAyLjExLjA0LjIyLjA1LjMzLjcyLDQuNDkuMDEsOC45Ny0yLjAyLDEyLjg5Wk0zOS4xNywyOC4xM2M0LjI2LDUuNTMsMTMuNzIsNS40NywxNy44OS0uMDguMDMtLjAzLjA1LS4wNy4wOC0uMS4wMi0uMDIuMDMtLjA0LjA1LS4wNiwxLjk1LTIuNTYsMi42Ny01LjcsMi4xMS04Ljk0LDAtLjA1LS4wMi0uMDktLjAyLS4xNCwwLS4wMiwwLS4wNCwwLS4wNi0uMTMtLjc3LS4zMS0xLjM5LS41Ny0xLjkzLDAsMCwwLDAsMC0uMDEsMCwwLDAsMCwwLS4wMSwwLDAsMCwwLDAtLjAxLDAtLjAxLS4wMS0uMDMtLjAyLS4wNC0uMDctLjEzLS4xMy0uMjctLjE4LS40LTEuNjItMy40OC00Ljc3LTUuOTItOC4yMy02LjUxLTUuNC0uOTQtMTAuNDcsMS43My0xMi42Myw2LjY2LS42MywxLjQ5LS45MywyLjk5LS45Myw0LjU5LDAsMi41OC44MSw0LjkyLDIuNDEsNi45Ni4wMy4wNC4wNi4wNy4wOC4xMVpNMjQuMDYsMTUuNjJjLTEuOTgsMC0zLjg5LjY4LTUuNDQsMS45OC0xLjksMS42LTIuOTksMy45Ni0yLjk5LDYuNDcsMCw0LjY0LDMuNzgsOC40Miw4LjQyLDguNDIsMS45NiwwLDMuODEtLjY4LDUuMjktMS45LTEuNS0yLjkxLTIuMjktNi4xNS0yLjI5LTkuNTMsMC0xLjU4LjE3LTMuMTQuNTEtNC42Ni0uNjMtLjMtMS4zMS0uNTItMi4wMS0uNjYtLjUtLjA5LTEtLjEzLTEuNS0uMTNaIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4=" alt="Participantes" class=""></div>
+    <div>
+      <div class="stat-value">30</div>
+      <div class="stat-label">participantes (máximo)</div>
+    </div>
+  </div>
+  <div class="stat">
+    <div class="stat-icon"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgOTYuMjEgOTYuMjEiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEsIC5jbHMtMiB7CiAgICAgICAgZmlsbDogIzAwNzBmMjsKICAgICAgfQoKICAgICAgLmNscy0yIHsKICAgICAgICBvcGFjaXR5OiAwOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8ZyBpZD0iSWNvbnNfMTZweCI+CiAgICA8ZyBpZD0icGVyc29uLXBsYWNlaG9sZGVyIj4KICAgICAgPHJlY3QgY2xhc3M9ImNscy0yIiB4PSIwIiB5PSIwIiB3aWR0aD0iOTYuMjEiIGhlaWdodD0iOTYuMjEiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNzkuMzcsOTAuMkgxNi44NGMtMi42NiwwLTQuODEtMi4xNS00LjgxLTQuODF2LTYuMDFjMC0xMy44OCw4LjE1LTI1LjksMTkuOTItMzEuNS00Ljg1LTQuNC03LjktMTAuNzUtNy45LTE3LjhzMy4xMi0xMy44Miw4LjU1LTE4LjRjNS40NS00LjU5LDEyLjY3LTYuNTEsMTkuODEtNS4yOCw5Ljc3LDEuNzUsMTcuNzMsOS43MiwxOS4zOCwxOS4zOSwxLjIzLDcuMTQtLjcsMTQuMzYtNS4yOCwxOS44LS42OS44Mi0xLjQ0LDEuNTktMi4yMiwyLjMxLDExLjc2LDUuNjEsMTkuOSwxNy42MiwxOS45LDMxLjQ5djYuMDFjMCwyLjY2LTIuMTUsNC44MS00LjgxLDQuODFaTTIxLjY1LDgwLjU4aDUyLjkydi0xLjJjMC0xMy45My0xMS4zMy0yNS4yNS0yNS4yNS0yNS4yNWgtMi40MWMtMTMuOTMsMC0yNS4yNSwxMS4zMy0yNS4yNSwyNS4yNXYxLjJaTTQ4LjEsMTUuNjNjLTMuNDIsMC02LjY2LDEuMTctOS4zMSwzLjM5LTMuMjYsMi43NC01LjEyLDYuNzctNS4xMiwxMS4wNCwwLDcuOTYsNi40NywxNC40MywxNC40MywxNC40Myw0LjI3LDAsOC4zLTEuODcsMTEuMDQtNS4xMiwyLjgtMy4zMiwzLjkyLTcuNTcsMy4xNi0xMS45OCwwLDAsMCwwLDAsMC0uOTgtNS43NS01LjczLTEwLjQ5LTExLjU2LTExLjUzLS44OS0uMTUtMS43Ny0uMjMtMi42NC0uMjNaIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4=" alt="Expositores" class=""></div>
+    <div>
+      <div class="stat-value">3</div>
+      <div class="stat-label">expositores finalistas</div>
+    </div>
+  </div>
+  <div class="stat">
+    <div class="stat-icon"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgOTYuMjEgOTYuMjEiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEsIC5jbHMtMiB7CiAgICAgICAgZmlsbDogIzAwNzBmMjsKICAgICAgfQoKICAgICAgLmNscy0yIHsKICAgICAgICBvcGFjaXR5OiAwOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8ZyBpZD0iSWNvbnNfMTZweCI+CiAgICA8ZyBpZD0iY29tcGV0aXRvciI+CiAgICAgIDxyZWN0IGNsYXNzPSJjbHMtMiIgeD0iMCIgeT0iMCIgd2lkdGg9Ijk2LjIxIiBoZWlnaHQ9Ijk2LjIxIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTczLjM2LDkwLjJIMjIuODVjLTIuNjYsMC00LjgxLTIuMTUtNC44MS00LjgxLDAtOS4wOSw2LjMzLTE2LjcyLDE0LjgxLTE4LjczLS43Ni00LjM0LTIuNzEtNy4wNi01LjE5LTEwLjUyLS40Ny0uNjUtLjk1LTEuMzItMS40My0yLjAyLTkuNDgtLjAyLTI1LjA4LTEuMjctMjYuMjItMjcuOTgtLjA5LTIuMDkuNjktNC4xNiwyLjE1LTUuNjgsMS40Ny0xLjU0LDMuNTQtMi40Miw1LjY3LTIuNDJoMTAuMjF2LTcuMjJjMC0yLjY2LDIuMTUtNC44MSw0LjgxLTQuODFoNTAuNTFjMi42NiwwLDQuODEsMi4xNSw0LjgxLDQuODF2Ny4yMmgxMC4yMWMyLjEzLDAsNC4xOS44OCw1LjY3LDIuNDIsMS40NiwxLjUyLDIuMjQsMy41OSwyLjE1LDUuNjgtMS4xNCwyNi43LTE2Ljc0LDI3Ljk2LTI2LjIyLDI3Ljk4LS40OC43LS45NiwxLjM3LTEuNDMsMi4wMi0yLjQ4LDMuNDYtNC40Myw2LjE4LTUuMTksMTAuNTIsOC40OCwyLjAxLDE0LjgxLDkuNjQsMTQuODEsMTguNzMsMCwyLjY2LTIuMTUsNC44MS00LjgxLDQuODFaTTI4Ljk1LDgwLjU4aDM4LjMxYy0xLjY3LTIuODctNC43OC00LjgxLTguMzMtNC44MWgtMjEuNjVjLTMuNTUsMC02LjY2LDEuOTQtOC4zMyw0LjgxWk00Mi41MSw2Ni4xNGgxMS4yYy45Ni03LjE2LDQuMDQtMTEuNDUsNy4wMy0xNS42MiwzLjg0LTUuMzYsNy44Mi0xMC45LDcuODItMjUuMjZ2LTkuNjRIMjcuNjZ2OS42NGMwLDE0LjM2LDMuOTgsMTkuOSw3LjgyLDI1LjI2LDIuOTksNC4xNyw2LjA3LDguNDYsNy4wMywxNS42MlpNNzguMTQsMjcuNjZjLS4yMSw3LjA0LTEuMzMsMTIuMzQtMi44NywxNi41Niw1Ljg0LS44MywxMC4yOC00LjA5LDExLjIxLTE2LjU2aC04LjM0Wk05Ljc0LDI3LjY2Yy45MywxMi40Nyw1LjM3LDE1LjcyLDExLjIxLDE2LjU2LTEuNTQtNC4yMS0yLjY2LTkuNTEtMi44Ny0xNi41NmgtOC4zNFoiLz4KICAgIDwvZz4KICA8L2c+Cjwvc3ZnPg==" alt="Ganador" class=""></div>
+    <div>
+      <div class="stat-value">1</div>
+      <div class="stat-label">ganador por votación</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ PREREQUISITE ═══════════════════════════ -->
+<div class="prereq-banner">
+  <div class="prereq-icon"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgOTYuMjEgOTYuMjEiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEsIC5jbHMtMiB7CiAgICAgICAgZmlsbDogIzAwNzBmMjsKICAgICAgfQoKICAgICAgLmNscy0yIHsKICAgICAgICBvcGFjaXR5OiAwOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8ZyBpZD0iSWNvbnNfMTZweCI+CiAgICA8ZyBpZD0ibGlnaHRidWxiIj4KICAgICAgPHJlY3QgY2xhc3M9ImNscy0yIiB4PSIwIiB5PSIwIiB3aWR0aD0iOTYuMjEiIGhlaWdodD0iOTYuMjEiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNjEuNyw5Ni4yMWgtMjcuMTRjLTIuNjYsMC00LjgxLTIuMTUtNC44MS00LjgxczIuMTUtNC44MSw0LjgxLTQuODFoMjcuMTRjMi42NiwwLDQuODEsMi4xNSw0LjgxLDQuODFzLTIuMTUsNC44MS00LjgxLDQuODFaTTM0LjU2LDc4LjQ0Yy0xLjI2LDAtMi40Ny0uNDktMy4zNy0xLjM4LS45Mi0uOS0xLjQ0LTIuMTQtMS40NC0zLjQzLDAtOC42NC0zLjkxLTEzLjUzLTguNDMtMTkuMTktNC4zNS01LjQ1LTkuMjktMTEuNjMtOS4yOS0yMS4xMUMxMi4wMywxNS41NywyOC45NCwwLDQ4LjIyLDBzMzUuOTYsMTUuNjUsMzUuOTYsMzMuNDljMCw5LjU2LTUsMTUuNy05LjQyLDIxLjEyLTQuNDcsNS41LTguMzQsMTAuMjQtOC4zNCwxOC41NSwwLDIuNjItMi4xLDQuNzYtNC43Myw0LjgxbC0yNy4wNi40NnMtLjA2LDAtLjA4LDBaTTM5LjM3LDczLjYzaC4wNi0uMDZaTTQ4LjIyLDkuNjJjLTE0LjE2LDAtMjYuNTgsMTEuMDctMjYuNTgsMjMuNywwLDYuMTEsMy4xNywxMC4wOCw3LjE5LDE1LjExLDQuMjMsNS4yOSw4Ljk0LDExLjE5LDEwLjIsMjAuMzFsMTguMDktLjMxYzEuMjYtOC45Myw1Ljk2LTE0LjcsMTAuMTctMTkuODgsNC4wNS00Ljk4LDcuMjYtOC45Miw3LjI2LTE1LjA1LDAtMTIuNzItMTIuMzEtMjMuODctMjYuMzQtMjMuODdaIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4=" alt="Pre-requisito" class=""></div>
+  <div class="prereq-content">
+    <div class="prereq-title">Pre-requisito para participar</div>
+    <div class="prereq-text">
+      Cada participante debe llegar al hackathon con <strong>un experto en mente</strong>:
+      define su nombre, su dominio de especialidad y los casos de uso que lo harán valioso
+      antes de la sesión. Joule para Consultores hará el resto.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ AGENDA ═══════════════════════════ -->
+<section class="agenda-section">
+  <div class="section-header">
+    <div class="section-header-line"></div>
+    <div class="section-title">Agenda del Hackathon</div>
+    <div class="section-header-line"></div>
+  </div>
+
+  <div class="timeline">
+
+    <!-- ── 1. Bienvenida ── -->
+    <div class="timeline-item">
+      <div class="time-col">
+        <div class="time-start">00:00</div>
+        <div class="time-dur">5 min</div>
+      </div>
+      <div class="connector-col">
+        <div class="step-dot"><span>1</span></div>
+        <div class="connector-line"></div>
+      </div>
+      <div class="card-col">
+        <div class="agenda-card">
+          <div class="card-icon-wrap"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgOTYuMjEgOTYuMjEiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEsIC5jbHMtMiB7CiAgICAgICAgZmlsbDogIzAwNzBmMjsKICAgICAgfQoKICAgICAgLmNscy0yIHsKICAgICAgICBvcGFjaXR5OiAwOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8ZyBpZD0iSWNvbnNfMTZweCI+CiAgICA8ZyBpZD0icGVyc29uLXBsYWNlaG9sZGVyIj4KICAgICAgPHJlY3QgY2xhc3M9ImNscy0yIiB4PSIwIiB5PSIwIiB3aWR0aD0iOTYuMjEiIGhlaWdodD0iOTYuMjEiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNzkuMzcsOTAuMkgxNi44NGMtMi42NiwwLTQuODEtMi4xNS00LjgxLTQuODF2LTYuMDFjMC0xMy44OCw4LjE1LTI1LjksMTkuOTItMzEuNS00Ljg1LTQuNC03LjktMTAuNzUtNy45LTE3LjhzMy4xMi0xMy44Miw4LjU1LTE4LjRjNS40NS00LjU5LDEyLjY3LTYuNTEsMTkuODEtNS4yOCw5Ljc3LDEuNzUsMTcuNzMsOS43MiwxOS4zOCwxOS4zOSwxLjIzLDcuMTQtLjcsMTQuMzYtNS4yOCwxOS44LS42OS44Mi0xLjQ0LDEuNTktMi4yMiwyLjMxLDExLjc2LDUuNjEsMTkuOSwxNy42MiwxOS45LDMxLjQ5djYuMDFjMCwyLjY2LTIuMTUsNC44MS00LjgxLDQuODFaTTIxLjY1LDgwLjU4aDUyLjkydi0xLjJjMC0xMy45My0xMS4zMy0yNS4yNS0yNS4yNS0yNS4yNWgtMi40MWMtMTMuOTMsMC0yNS4yNSwxMS4zMy0yNS4yNSwyNS4yNXYxLjJaTTQ4LjEsMTUuNjNjLTMuNDIsMC02LjY2LDEuMTctOS4zMSwzLjM5LTMuMjYsMi43NC01LjEyLDYuNzctNS4xMiwxMS4wNCwwLDcuOTYsNi40NywxNC40MywxNC40MywxNC40Myw0LjI3LDAsOC4zLTEuODcsMTEuMDQtNS4xMiwyLjgtMy4zMiwzLjkyLTcuNTcsMy4xNi0xMS45OCwwLDAsMCwwLDAsMC0uOTgtNS43NS01LjczLTEwLjQ5LTExLjU2LTExLjUzLS44OS0uMTUtMS43Ny0uMjMtMi42NC0uMjNaIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4=" alt="Bienvenida" class=""></div>
+          <div class="card-body">
+            <div class="card-title">Bienvenida &amp; Reglas del juego</div>
+            <div class="card-desc">
+              Presentación de objetivos, equipos y las reglas que rigen la competencia.
+              Se establece el criterio de evaluación para la votación final.
+            </div>
+            <ul class="card-bullets">
+              <li>Objetivo del hackathon</li>
+              <li>Reglas de participación</li>
+              <li>Criterios de evaluación</li>
+              <li>Plataforma de votación</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 2. Demo ── -->
+    <div class="timeline-item">
+      <div class="time-col">
+        <div class="time-start">00:05</div>
+        <div class="time-dur">10 min</div>
+      </div>
+      <div class="connector-col">
+        <div class="step-dot"><span>2</span></div>
+        <div class="connector-line"></div>
+      </div>
+      <div class="card-col">
+        <div class="agenda-card">
+          <div class="card-icon-wrap"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgOTYuMjEgOTYuMjEiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEsIC5jbHMtMiB7CiAgICAgICAgZmlsbDogIzAwNzBmMjsKICAgICAgfQoKICAgICAgLmNscy0yIHsKICAgICAgICBvcGFjaXR5OiAwOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8ZyBpZD0iSWNvbnNfMTZweCI+CiAgICA8ZyBpZD0iYWkiPgogICAgICA8cmVjdCBjbGFzcz0iY2xzLTIiIHdpZHRoPSI5Ni4yMSIgaGVpZ2h0PSI5Ni4yMSIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik05NC41LDIwLjQ0Yy03LjgzLDIuNjUtMTEuMzEsNi4xMy0xMy45NSwxMy45NS0uNzcsMi4yNy0zLjk5LDIuMjctNC43NiwwLTIuNjUtNy44My02LjEzLTExLjMxLTEzLjk1LTEzLjk1LTIuMjctLjc3LTIuMjctNC4wMiwwLTQuNzgsNy44My0yLjY1LDExLjMxLTYuMTMsMTMuOTUtMTMuOTUuNzctMi4yNywzLjk5LTIuMjcsNC43NiwwLDIuNjUsNy44Myw2LjEzLDExLjMxLDEzLjk1LDEzLjk1LDIuMjcuNzcsMi4yNyw0LjAyLDAsNC43OFpNNjIuOTYsNTguNzhjLTE0LjM0LTQuODQtMjAuNzEtMTEuMjItMjUuNTYtMjUuNTUtMS40MS00LjE2LTcuMzEtNC4xNi04LjcyLDAtNC44NSwxNC4zMy0xMS4yMiwyMC43MS0yNS41NiwyNS41NS00LjE3LDEuNDEtNC4xNyw3LjM2LDAsOC43NiwxNC4zNCw0Ljg0LDIwLjcxLDExLjIyLDI1LjU2LDI1LjU1LDEuNDEsNC4xNiw3LjMxLDQuMTYsOC43MiwwLDQuODUtMTQuMzMsMTEuMjItMjAuNzEsMjUuNTYtMjUuNTUsNC4xNy0xLjQxLDQuMTctNy4zNiwwLTguNzZaIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4=" alt="Demo" class=""></div>
+          <div class="card-body">
+            <div class="card-title">Demo rápida: Joule para Consultores</div>
+            <div class="card-desc">
+              Recorrido por la plataforma, Expert Workspace y las capacidades clave
+              que los participantes van a utilizar durante el hackathon.
+            </div>
+            <ul class="card-bullets">
+              <li>Tour de la plataforma</li>
+              <li>Configurar un Expert Workspace</li>
+              <li>Definir rol y especialidad del experto</li>
+              <li>Tips para maximizar resultados</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 3. Manos a la obra (HIGHLIGHT) ── -->
+    <div class="timeline-item">
+      <div class="time-col">
+        <div class="time-start">00:15</div>
+        <div class="time-dur">35 min</div>
+      </div>
+      <div class="connector-col">
+        <div class="step-dot"><span>3</span></div>
+        <div class="connector-line"></div>
+      </div>
+      <div class="card-col">
+        <div class="agenda-card highlight">
+          <div class="card-badge">Bloque principal</div>
+          <div class="card-icon-wrap"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgOTYuMjEgOTYuMjEiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEsIC5jbHMtMiB7CiAgICAgICAgZmlsbDogIzAwNzBmMjsKICAgICAgfQoKICAgICAgLmNscy0yIHsKICAgICAgICBvcGFjaXR5OiAwOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8ZyBpZD0iSWNvbnNfMTZweCI+CiAgICA8ZyBpZD0ibGlnaHRidWxiIj4KICAgICAgPHJlY3QgY2xhc3M9ImNscy0yIiB4PSIwIiB5PSIwIiB3aWR0aD0iOTYuMjEiIGhlaWdodD0iOTYuMjEiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNjEuNyw5Ni4yMWgtMjcuMTRjLTIuNjYsMC00LjgxLTIuMTUtNC44MS00LjgxczIuMTUtNC44MSw0LjgxLTQuODFoMjcuMTRjMi42NiwwLDQuODEsMi4xNSw0LjgxLDQuODFzLTIuMTUsNC44MS00LjgxLDQuODFaTTM0LjU2LDc4LjQ0Yy0xLjI2LDAtMi40Ny0uNDktMy4zNy0xLjM4LS45Mi0uOS0xLjQ0LTIuMTQtMS40NC0zLjQzLDAtOC42NC0zLjkxLTEzLjUzLTguNDMtMTkuMTktNC4zNS01LjQ1LTkuMjktMTEuNjMtOS4yOS0yMS4xMUMxMi4wMywxNS41NywyOC45NCwwLDQ4LjIyLDBzMzUuOTYsMTUuNjUsMzUuOTYsMzMuNDljMCw5LjU2LTUsMTUuNy05LjQyLDIxLjEyLTQuNDcsNS41LTguMzQsMTAuMjQtOC4zNCwxOC41NSwwLDIuNjItMi4xLDQuNzYtNC43Myw0LjgxbC0yNy4wNi40NnMtLjA2LDAtLjA4LDBaTTM5LjM3LDczLjYzaC4wNi0uMDZaTTQ4LjIyLDkuNjJjLTE0LjE2LDAtMjYuNTgsMTEuMDctMjYuNTgsMjMuNywwLDYuMTEsMy4xNywxMC4wOCw3LjE5LDE1LjExLDQuMjMsNS4yOSw4Ljk0LDExLjE5LDEwLjIsMjAuMzFsMTguMDktLjMxYzEuMjYtOC45Myw1Ljk2LTE0LjcsMTAuMTctMTkuODgsNC4wNS00Ljk4LDcuMjYtOC45Miw3LjI2LTE1LjA1LDAtMTIuNzItMTIuMzEtMjMuODctMjYuMzQtMjMuODdaIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4=" alt="Manos a la obra" class=""></div>
+          <div class="card-body">
+            <div class="card-title">Manos a la obra: Crea tu Experto</div>
+            <div class="card-desc">
+              Cada participante accede a Joule para Consultores y configura
+              su propio experto de IA. Este es el corazón del hackathon:
+              35 minutos de creación, prueba e iteración.
+            </div>
+            <ul class="card-bullets">
+              <li>Crear el Expert Workspace</li>
+              <li>Nombre y descripción del experto</li>
+              <li>Definir dominio y casos de uso</li>
+              <li>Alimentar con conocimiento relevante</li>
+              <li>Probar e iterar respuestas</li>
+              <li>Preparar presentación de 30 seg</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 4. Presentaciones ── -->
+    <div class="timeline-item">
+      <div class="time-col">
+        <div class="time-start">00:50</div>
+        <div class="time-dur">5 min</div>
+      </div>
+      <div class="connector-col">
+        <div class="step-dot"><span>4</span></div>
+        <div class="connector-line"></div>
+      </div>
+      <div class="card-col">
+        <div class="agenda-card">
+          <div class="card-icon-wrap"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgOTYuMjEgOTYuMjIiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEsIC5jbHMtMiB7CiAgICAgICAgZmlsbDogIzAwNzBmMjsKICAgICAgfQoKICAgICAgLmNscy0yIHsKICAgICAgICBvcGFjaXR5OiAwOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8ZyBpZD0iSWNvbnNfMTZweCI+CiAgICA8ZyBpZD0iY29sbGFib3JhdGUiPgogICAgICA8cmVjdCBjbGFzcz0iY2xzLTIiIHg9IjAiIHk9IjAiIHdpZHRoPSI5Ni4yMSIgaGVpZ2h0PSI5Ni4yMSIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik00OC4wOSw5Ni4yMmMtNi4yNywwLTEyLjUzLTIuMDQtMTcuNzYtNi4xMmwtOC43LTYuNzl2Mi4wOGMwLDIuNjYtMS45Niw1LjA0LTQuODIsNC44MS0yLjY2LDAtNC44MS0yLjE2LTQuODEtNC44MXYtMTQuNDJjLjAxLTIuNjUsMi4xNi00LjgxLDQuODItNC44MWgxNC40MmMyLjktLjAyLDQuODEsMi4xNCw0LjgxLDQuOCwwLDIuNjYtMi4xNSw0LjgxLTQuODEsNC44MWgtMy42NXM4LjY1LDYuNzUsOC42NSw2Ljc1YzYuOTcsNS40NCwxNi43MSw1LjQ0LDIzLjY4LDBsOC42NS02Ljc1aC0zLjY1Yy0yLjY2LDAtNC44MS0yLjE2LTQuODEtNC44MiwwLTIuNjYsMi4wNS00Ljg4LDQuODEtNC44MWgxNC40MmMyLjY1LjAxLDQuODEsMi4xNiw0LjgxLDQuODJ2MTQuNDJjLjAxLDIuNjYtMi4xNCw0LjgxLTQuOCw0LjgxaDBjLTIuNjYsMC00LjgxLTIuMTUtNC44MS00Ljgxdi0yLjA4cy04LjcsNi43OS04LjcsNi43OWMtNS4yMyw0LjA4LTExLjQ5LDYuMTItMTcuNzYsNi4xMlpNOTEuNCw2MC4xNWMtMi42NiwwLTQuODEtMi4xNS00LjgxLTQuODF2LTIuNDFjMC0zLjk4LTMuMjQtNy4yMi03LjIyLTcuMjJoLS4zMmMxLjM2LDIuOTMsMi4xMyw2LjE5LDIuMTMsOS42MiwwLDIuNjYtMi4xNSw0LjgxLTQuODEsNC44MXMtNC44MS0yLjE1LTQuODEtNC44MWMwLTQuMjctMi4wMy04LjA3LTUuMTgtMTAuNDktLjA4LS4wNi0uMTctLjEyLS4yNS0uMTktMi4xOS0xLjYtNC44OS0yLjU1LTcuOC0yLjU1aC0yMC40NGMtMi44OCwwLTUuNTYuOTMtNy43MywyLjUtLjEyLjEtLjI1LjItLjM4LjI4LTMuMTEsMi40Mi01LjEyLDYuMi01LjEyLDEwLjQ0LDAsMi42Ni0yLjE1LDQuODEtNC44MSw0Ljgxcy00LjgxLTIuMTUtNC44MS00LjgxYzAtMy40NC43Ni02LjcsMi4xMy05LjYyaC0uMzJjLTMuOTgsMC03LjIyLDMuMjQtNy4yMiw3LjIydjIuNDFjMCwyLjY2LTIuMTUsNC44MS00LjgxLDQuODFzLTQuODEtMi4xNS00LjgxLTQuODF2LTIuNDFjMC03LjQsNC44LTEzLjcxLDExLjQ2LTE1Ljk2LTMuMzYtMy4yOC01LjQ1LTcuODUtNS40NS0xMi45MSwwLTUuMzUsMi4zNC0xMC4zOSw2LjQxLTEzLjgyLDQuMDgtMy40NCw5LjQ5LTQuODksMTQuODUtMy45NywxLjU5LjMsMy4xLjgsNC41LDEuNDdDMzYuNTMsMS45NCw0NC4xNC0xLjAyLDUxLjg4LjMzYzQuOTQuODQsOS40MSwzLjU1LDEyLjU0LDcuNDEsMy4zNC0xLjYsNy4xMy0yLjEzLDEwLjk2LTEuNDYsNy4zMywxLjMzLDEzLjI3LDcuMzIsMTQuNSwxNC41Ny45Miw1LjM0LS41MywxMC43NS0zLjk4LDE0Ljg1LS4zNy40NS0uNzcuODctMS4xOCwxLjI3LDYuNjcsMi4yNCwxMS40OCw4LjU1LDExLjQ4LDE1Ljk2djIuNDFjMCwyLjY2LTIuMTUsNC44MS00LjgxLDQuODFaTTY2LjgzLDMwLjU5YzMuMjQsMi42OSw4LjgzLDIuMzUsMTEuNzItMS4wOSwxLjY0LTEuOTUsMi4zLTQuNDQsMS44Ni03LjAyLDAsMCwwLS4wMSwwLS4wMi0uNTUtMy4yOC0zLjM3LTYuMS02LjctNi43MS0xLjc3LS4zMS0zLjUzLS4wNy01LjA4LjY1LjA2LjMxLjEyLjYzLjE3Ljk2LjAyLjExLjA0LjIyLjA1LjMzLjcyLDQuNDkuMDEsOC45Ny0yLjAyLDEyLjg5Wk0zOS4xNywyOC4xM2M0LjI2LDUuNTMsMTMuNzIsNS40NywxNy44OS0uMDguMDMtLjAzLjA1LS4wNy4wOC0uMS4wMi0uMDIuMDMtLjA0LjA1LS4wNiwxLjk1LTIuNTYsMi42Ny01LjcsMi4xMS04Ljk0LDAtLjA1LS4wMi0uMDktLjAyLS4xNCwwLS4wMiwwLS4wNCwwLS4wNi0uMTMtLjc3LS4zMS0xLjM5LS41Ny0xLjkzLDAsMCwwLDAsMC0uMDEsMCwwLDAsMCwwLS4wMSwwLDAsMCwwLDAtLjAxLDAtLjAxLS4wMS0uMDMtLjAyLS4wNC0uMDctLjEzLS4xMy0uMjctLjE4LS40LTEuNjItMy40OC00Ljc3LTUuOTItOC4yMy02LjUxLTUuNC0uOTQtMTAuNDcsMS43My0xMi42Myw2LjY2LS42MywxLjQ5LS45MywyLjk5LS45Myw0LjU5LDAsMi41OC44MSw0LjkyLDIuNDEsNi45Ni4wMy4wNC4wNi4wNy4wOC4xMVpNMjQuMDYsMTUuNjJjLTEuOTgsMC0zLjg5LjY4LTUuNDQsMS45OC0xLjksMS42LTIuOTksMy45Ni0yLjk5LDYuNDcsMCw0LjY0LDMuNzgsOC40Miw4LjQyLDguNDIsMS45NiwwLDMuODEtLjY4LDUuMjktMS45LTEuNS0yLjkxLTIuMjktNi4xNS0yLjI5LTkuNTMsMC0xLjU4LjE3LTMuMTQuNTEtNC42Ni0uNjMtLjMtMS4zMS0uNTItMi4wMS0uNjYtLjUtLjA5LTEtLjEzLTEuNS0uMTNaIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4=" alt="Presentaciones" class=""></div>
+          <div class="card-body">
+            <div class="card-title">Presentaciones de los 3 finalistas</div>
+            <div class="card-desc">
+              De los 30 participantes, <strong>3 voluntarios</strong> presentan su experto al grupo.
+              Cada uno dispone de <strong>~90 segundos</strong> para compartir su propuesta.
+            </div>
+            <ul class="card-bullets">
+              <li>3 voluntarios al frente</li>
+              <li>~90 seg por presentación</li>
+              <li>Nombre &amp; especialidad del experto</li>
+              <li>Principal caso de uso</li>
+              <li>Valor que aporta al cliente</li>
+            </ul>
+            <div class="finalist-note">
+              Los demás participantes ya tienen su experto creado y podrán compartirlo fuera de la sesión.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 5. Votación ── -->
+    <div class="timeline-item">
+      <div class="time-col">
+        <div class="time-start">00:55</div>
+        <div class="time-dur">5 min</div>
+      </div>
+      <div class="connector-col">
+        <div class="step-dot last-step"><span>5</span></div>
+      </div>
+      <div class="card-col">
+        <div class="agenda-card card-final">
+          <div class="card-icon-wrap final-icon"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgOTYuMjEgOTYuMjEiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEsIC5jbHMtMiB7CiAgICAgICAgZmlsbDogIzAwNzBmMjsKICAgICAgfQoKICAgICAgLmNscy0yIHsKICAgICAgICBvcGFjaXR5OiAwOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8ZyBpZD0iSWNvbnNfMTZweCI+CiAgICA8ZyBpZD0iY29tcGV0aXRvciI+CiAgICAgIDxyZWN0IGNsYXNzPSJjbHMtMiIgeD0iMCIgeT0iMCIgd2lkdGg9Ijk2LjIxIiBoZWlnaHQ9Ijk2LjIxIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTczLjM2LDkwLjJIMjIuODVjLTIuNjYsMC00LjgxLTIuMTUtNC44MS00LjgxLDAtOS4wOSw2LjMzLTE2LjcyLDE0LjgxLTE4LjczLS43Ni00LjM0LTIuNzEtNy4wNi01LjE5LTEwLjUyLS40Ny0uNjUtLjk1LTEuMzItMS40My0yLjAyLTkuNDgtLjAyLTI1LjA4LTEuMjctMjYuMjItMjcuOTgtLjA5LTIuMDkuNjktNC4xNiwyLjE1LTUuNjgsMS40Ny0xLjU0LDMuNTQtMi40Miw1LjY3LTIuNDJoMTAuMjF2LTcuMjJjMC0yLjY2LDIuMTUtNC44MSw0LjgxLTQuODFoNTAuNTFjMi42NiwwLDQuODEsMi4xNSw0LjgxLDQuODF2Ny4yMmgxMC4yMWMyLjEzLDAsNC4xOS44OCw1LjY3LDIuNDIsMS40NiwxLjUyLDIuMjQsMy41OSwyLjE1LDUuNjgtMS4xNCwyNi43LTE2Ljc0LDI3Ljk2LTI2LjIyLDI3Ljk4LS40OC43LS45NiwxLjM3LTEuNDMsMi4wMi0yLjQ4LDMuNDYtNC40Myw2LjE4LTUuMTksMTAuNTIsOC40OCwyLjAxLDE0LjgxLDkuNjQsMTQuODEsMTguNzMsMCwyLjY2LTIuMTUsNC44MS00LjgxLDQuODFaTTI4Ljk1LDgwLjU4aDM4LjMxYy0xLjY3LTIuODctNC43OC00LjgxLTguMzMtNC44MWgtMjEuNjVjLTMuNTUsMC02LjY2LDEuOTQtOC4zMyw0LjgxWk00Mi41MSw2Ni4xNGgxMS4yYy45Ni03LjE2LDQuMDQtMTEuNDUsNy4wMy0xNS42MiwzLjg0LTUuMzYsNy44Mi0xMC45LDcuODItMjUuMjZ2LTkuNjRIMjcuNjZ2OS42NGMwLDE0LjM2LDMuOTgsMTkuOSw3LjgyLDI1LjI2LDIuOTksNC4xNyw2LjA3LDguNDYsNy4wMywxNS42MlpNNzguMTQsMjcuNjZjLS4yMSw3LjA0LTEuMzMsMTIuMzQtMi44NywxNi41Niw1Ljg0LS44MywxMC4yOC00LjA5LDExLjIxLTE2LjU2aC04LjM0Wk05Ljc0LDI3LjY2Yy45MywxMi40Nyw1LjM3LDE1LjcyLDExLjIxLDE2LjU2LTEuNTQtNC4yMS0yLjY2LTkuNTEtMi44Ny0xNi41NmgtOC4zNFoiLz4KICAgIDwvZz4KICA8L2c+Cjwvc3ZnPg==" alt="Ganador" class=""></div>
+          <div class="card-body">
+            <div class="card-title">Votación &amp; Anuncio del Ganador</div>
+            <div class="card-desc">
+              Los <strong>30 participantes votan</strong> en tiempo real por uno de los
+              <strong>3 finalistas</strong>. El experto con más votos se corona como ganador.
+            </div>
+            <ul class="card-bullets">
+              <li>Solo los 3 finalistas compiten</li>
+              <li>Los 30 participantes emiten su voto</li>
+              <li>Votación anónima — resultados en pantalla</li>
+              <li>Anuncio y celebración del ganador</li>
+              <li>Cierre y reflexiones finales</li>
+            </ul>
+            <div class="voting-note">
+              <span class="voting-label">Plataforma de votación:</span>
+              <span class="voting-platform menti">Mentimeter</span>
+              <span class="voting-label">o</span>
+              <span class="voting-platform kahoot">Kahoot</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /timeline -->
+</section>
+
+<!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+<footer class="footer">
+  <div class="footer-classification">Public</div>
+  <div class="footer-brand">
+    <span>SAP Joule para Consultores</span> · Hackathon Agenda · 2026
+  </div>
+</footer>
+
+</body>
+</html>
